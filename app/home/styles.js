@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingBottom: 100,
     backgroundColor: '#EBF3FF', // 배경색
   },
 
@@ -41,8 +42,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 60, // Set a specific height for the bottom nav bar
+    height: 70, // Set a specific height for the bottom nav bar
     elevation: 5, // Optional: Shadow effect for Android
+    //marginBottom: 30,
 },
   navButton: {
     padding: 10,
@@ -284,12 +286,26 @@ const styles = StyleSheet.create({
   },
   searchHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between', // This keeps elements spaced out
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
-    position: 'relative', // To allow absolute positioning of icons if needed
-    paddingHorizontal: 10, // Added padding to create space between icons and the edges
+    paddingHorizontal: 10,
   },
+  pharmacyButton: {
+    backgroundColor: '#4da6ff', // 약국 검색 버튼 색상
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginVertical: 10,
+    width: '30%', // 버튼의 너비 조정
+  },
+  pharmacyButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+
   cameraIcon: {
     marginVertical: 10,
     color: '#428CF7', // 기본 강조색
@@ -357,9 +373,9 @@ const styles = StyleSheet.create({
   medicineImage: {
     width: 60,
     height: 60,
-    borderRadius: 30,  // Ensure circular shape
+    borderRadius: 30,
     marginRight: 15,
-    resizeMode: 'cover',  // Ensures the image covers the container without distortion
+    resizeMode: 'cover',
   },
   medicineInfo: {
     flex: 1,  // Allow the text to take up the remaining space

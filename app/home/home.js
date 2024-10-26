@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Modal, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Svg, Circle } from 'react-native-svg'; 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Calendar from './calendar';
+import Search from './search';
+import Profile from './profile';
 import styles from './styles'; 
+import HomeComponent from './home'; // 기존 Home 컴포넌트
+import { useNavigation } from '@react-navigation/native';
 
-export default function Home() {
+
+export default function HomeScreen() {
+  const Tab = createBottomTabNavigator();
+  const navigation = useNavigation(); // navigation 객체 가져오기
+
   const [medications, setMedications] = useState([
     { id: '1', time: '9:00 AM', name: 'Vitamin C', taken: false, period: 'Morning' },
     { id: '2', time: '1:00 PM', name: 'Ibuprofen', taken: false, period: 'Lunch' },
@@ -174,10 +184,6 @@ export default function Home() {
   return (
     <View style={styles.container}>
       {/* Top Bar */}
-      <View style={styles.topBar}>
-        <Text style={styles.topBarTitle}>Pillpop App</Text>
-      </View>
-
       <View style={styles.header}>
         <Text style={styles.greeting}>Hey, [User]</Text>
         <Text style={styles.progressText}>
@@ -232,70 +238,71 @@ export default function Home() {
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => handleSelectMedication(item)}>
                   <Text
-                    style={[
-                      styles.modalItemText,
-                      selectedMedication && selectedMedication.id === item.id
-                        ? styles.selectedMedication
-                        : null,
-                    ]}
-                  >
-                    {item.name}
-                  </Text>
-                </TouchableOpacity>
-              )}
-              keyExtractor={(item) => item.id}
-            />
-
-            {/* Time Selection */}
-            {selectedMedication && (
-              <View style={styles.timeSelectionContainer}>
-                <TouchableOpacity onPress={() => toggleTimeSelection('Morning')}>
-                  <Text style={selectedTimes.Morning ? styles.selectedTime : styles.timeOption}>
-                    Morning (9:00 AM)
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => toggleTimeSelection('Lunch')}>
-                  <Text style={selectedTimes.Lunch ? styles.selectedTime : styles.timeOption}>
-                    Lunch (1:00 PM)
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => toggleTimeSelection('Dinner')}>
-                  <Text style={selectedTimes.Dinner ? styles.selectedTime : styles.timeOption}>
-                    Dinner (8:00 PM)
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-
-            {/* Save Alarm Button */}
-            {selectedMedication && (
-              <TouchableOpacity style={styles.modalButton} onPress={handleSaveAlarm}>
-                <Text style={styles.modalButtonText}>Save Alarm</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-      </Modal>
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton}>
-          <MaterialIcons name="home" size={24} color={styles.navButtonText.color} />
-          <Text style={styles.navButtonText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <MaterialIcons name="calendar-today" size={24} color={styles.navButtonText.color} />
-          <Text style={styles.navButtonText}>Calendar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <MaterialIcons name="search" size={24} color={styles.navButtonText.color} />
-          <Text style={styles.navButtonText}>Search</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <MaterialIcons name="person" size={24} color={styles.navButtonText.color} />
-          <Text style={styles.navButtonText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+                                        style={[
+                                          styles.modalItemText,
+                                          selectedMedication && selectedMedication.id === item.id
+                                            ? styles.selectedMedication
+                                            : null,
+                                        ]}
+                                      >
+                                        {item.name}
+                                      </Text>
+                                    </TouchableOpacity>
+                                  )}
+                                  keyExtractor={(item) => item.id}
+                                />
+                    
+                                {/* Time Selection */}
+                                {selectedMedication && (
+                                  <View style={styles.timeSelectionContainer}>
+                                    <TouchableOpacity onPress={() => toggleTimeSelection('Morning')}>
+                                      <Text style={selectedTimes.Morning ? styles.selectedTime : styles.timeOption}>
+                                        Morning (9:00 AM)
+                                      </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => toggleTimeSelection('Lunch')}>
+                                      <Text style={selectedTimes.Lunch ? styles.selectedTime : styles.timeOption}>
+                                        Lunch (1:00 PM)
+                                      </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => toggleTimeSelection('Dinner')}>
+                                      <Text style={selectedTimes.Dinner ? styles.selectedTime : styles.timeOption}>
+                                        Dinner (8:00 PM)
+                                      </Text>
+                                    </TouchableOpacity>
+                                  </View>
+                                )}
+                    
+                                {/* Save Alarm Button */}
+                                {selectedMedication && (
+                                  <TouchableOpacity style={styles.modalButton} onPress={handleSaveAlarm}>
+                                    <Text style={styles.modalButtonText}>Save Alarm</Text>
+                                  </TouchableOpacity>
+                                )}
+                              </View>
+                            </View>
+                          </Modal>
+                    
+                          {/* Bottom Navigation */}
+                          <View style={styles.bottomNav}>
+                            <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Home')}>
+                              <MaterialIcons name="home" size={24} color={styles.navButtonText.color} />
+                              <Text style={styles.navButtonText}>Home</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Calendar')}>
+                              <MaterialIcons name="calendar-today" size={24} color={styles.navButtonText.color} />
+                              <Text style={styles.navButtonText}>Calendar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Search')}>
+                              <MaterialIcons name="search" size={24} color={styles.navButtonText.color} />
+                              <Text style={styles.navButtonText}>Search</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Profile')}>
+                              <MaterialIcons name="person" size={24} color={styles.navButtonText.color} />
+                              <Text style={styles.navButtonText}>Profile</Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      );
+                    }
+                    
